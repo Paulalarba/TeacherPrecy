@@ -1,4 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { 
+  GraduationCap, 
+  BookOpen, 
+  Heart, 
+  Accessibility, 
+  PenLine, 
+  Sparkles,
+  Award,
+  Users,
+  Brain,
+  Quote
+} from "lucide-react";
 import { content } from "./data";
 
 function moveTo(id: string) {
@@ -21,15 +33,64 @@ function ModeIcon({ mode }: { mode: string }) {
   );
 }
 
+function BackgroundDecor() {
+  return (
+    <div className="background-decor" aria-hidden="true">
+      <GraduationCap className="decor-icon" style={{ top: "10%", left: "5%", transform: "rotate(-15deg)" }} size={120} />
+      <BookOpen className="decor-icon" style={{ top: "25%", right: "8%", transform: "rotate(12deg)" }} size={160} />
+      <Heart className="decor-icon" style={{ top: "45%", left: "12%", transform: "rotate(-10deg)" }} size={100} />
+      <Accessibility className="decor-icon" style={{ top: "65%", left: "80%", transform: "rotate(20deg)" }} size={140} />
+      <PenLine className="decor-icon" style={{ top: "85%", left: "5%", transform: "rotate(-25deg)" }} size={110} />
+      <Sparkles className="decor-icon" style={{ top: "92%", left: "85%", transform: "rotate(15deg)" }} size={130} />
+      <Award className="decor-icon" style={{ top: "5%", right: "20%", transform: "rotate(10deg)" }} size={90} />
+      <Users className="decor-icon" style={{ top: "50%", right: "2%", transform: "rotate(-5deg)" }} size={120} />
+      <Brain className="decor-icon" style={{ top: "75%", left: "4%", transform: "rotate(25deg)" }} size={150} />
+      <Quote className="decor-icon" style={{ top: "80%", left: "20%", transform: "rotate(-15deg)" }} size={100} />
+    </div>
+  );
+}
+
+function HeadlineReveal({ children, delay = 0 }: { children: string; delay?: number }) {
+  const lines = children.split("\n");
+  return (
+    <>
+      {lines.map((line, i) => (
+        <span key={i} className="headline-reveal">
+          <span style={{ "--reveal-delay": `${delay + i * 60}ms` } as any}>{line}</span>
+        </span>
+      ))}
+    </>
+  );
+}
+
 function App() {
   const [mode, setMode] = useState(() => localStorage.getItem("teacherprecy-mode") || "gallery");
   const [filter, setFilter] = useState("all");
   const [selectedSlot, setSelectedSlot] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.dataset.mode = mode === "studio" ? "studio" : "gallery";
     localStorage.setItem("teacherprecy-mode", mode);
   }, [mode]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    const elements = document.querySelectorAll(".reveal-on-scroll");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [filter]); // Re-observe when filter changes modules
 
   function toggleMode() {
     document.body.classList.add("theme-wipe");
@@ -43,7 +104,8 @@ function App() {
   const categories = useMemo(() => ["all", ...new Set(content.academy.map((item) => item.category))], []);
 
   return (
-    <div className="shell">
+    <div className="shell" ref={scrollRef}>
+      <BackgroundDecor />
       <header className="nav">
         <div className="container nav-inner">
           <a className="brand-mark" href="#" onClick={(event) => { event.preventDefault(); moveTo("hero"); }}>
@@ -51,7 +113,6 @@ function App() {
           </a>
           <nav className="nav-links" aria-label="Primary navigation">
             <a href="#story" onClick={(event) => { event.preventDefault(); moveTo("story"); }}>Story</a>
-            <a href="#portfolio" onClick={(event) => { event.preventDefault(); moveTo("portfolio"); }}>Portfolio</a>
             <a href="#academy" onClick={(event) => { event.preventDefault(); moveTo("academy"); }}>Academy</a>
             <a href="#atelier" onClick={(event) => { event.preventDefault(); moveTo("atelier"); }}>Booking</a>
           </nav>
@@ -67,16 +128,18 @@ function App() {
       <main>
         <section className="section hero" id="hero">
           <div className="container hero-grid">
-            <div className="reveal">
+            <div className="reveal-on-scroll">
               <p className="eyebrow">{content.hero.kicker}</p>
-              <h1>{content.hero.title}</h1>
+              <h1>
+                <HeadlineReveal>{content.hero.title}</HeadlineReveal>
+              </h1>
               <p className="hero-copy">{content.hero.mission}</p>
               <div className="hero-actions">
                 <button className="btn btn-primary" type="button" onClick={() => moveTo("atelier")}>{content.hero.primaryCta}</button>
                 <button className="btn btn-quiet" type="button" onClick={() => moveTo("academy")}>{content.hero.secondaryCta}</button>
               </div>
             </div>
-            <div className="collage reveal" aria-label="Editorial collage placeholders">
+            <div className="collage reveal-on-scroll" aria-label="Editorial collage placeholders" style={{ "--reveal-delay": "200ms" } as any}>
               <div className="plate plate-portrait" data-label="Precy Alarba">
                 <img src="/Profile.jpg" alt="Precy Alarba" />
               </div>
@@ -89,11 +152,11 @@ function App() {
 
         <section className="section" id="story">
           <div className="container chapter-index">
-            <div>
+            <div className="reveal-on-scroll">
               <p className="eyebrow">{content.narrative.label}</p>
-              <h2>{content.narrative.headline}</h2>
+              <h2><HeadlineReveal>{content.narrative.headline}</HeadlineReveal></h2>
             </div>
-            <div>
+            <div className="reveal-on-scroll" style={{ "--reveal-delay": "100ms" } as any}>
               <p className="narrative-body">{content.narrative.body}</p>
               <div className="narrative-meta" aria-label="Teaching posture">
                 <div className="mini-cell"><strong>Method</strong>Structured lessons with review loops.</div>
@@ -104,57 +167,13 @@ function App() {
           </div>
         </section>
 
-        <section className="section portfolio" id="portfolio">
-          <div className="container">
-            <div className="portfolio-head">
-              <div>
-                <p className="eyebrow">Portfolio / index</p>
-                <h2>Proof of practice, arranged as a working archive.</h2>
-              </div>
-              <p>Credentials, expertise, and mentorship offerings are placed as editorial artifacts: readable, structured, and intentionally uneven.</p>
-            </div>
-            <div className="bento">
-              <article className="tile tile-large">
-                <span className="tagline">Credentials table</span>
-                <h3>Professional educator with a coaching studio mindset.</h3>
-                <ul className="credential-list">
-                  {content.credentials.map((item) => (
-                    <li key={item.area}><span>{item.area}</span><p>{item.detail}</p></li>
-                  ))}
-                </ul>
-              </article>
-              <article className="tile tile-tall">
-                <span className="tagline">Expertise glossary</span>
-                <h3>A curated index of learner support.</h3>
-                <p>Each capability is a repeatable teaching move, not a decorative service label.</p>
-                <div className="expertise-cloud">
-                  {content.expertise.map((item) => <span className="chip" key={item}>{item}</span>)}
-                </div>
-              </article>
-              <article className="tile tile-small">
-                <span className="tagline">Mentorship</span>
-                <h3>Hourly to monthly guidance.</h3>
-                <p>Flexible coaching rhythms for students who need targeted feedback or sustained accountability.</p>
-              </article>
-              <article className="tile tile-small">
-                <span className="tagline">Online platform</span>
-                <h3>Learning designed for access.</h3>
-                <p>Digital modules keep the rigor visible with clean sequencing, session notes, and practical next steps.</p>
-              </article>
-              <article className="tile tile-small">
-                <span className="tagline">Academic portfolio</span>
-                <h3>Evidence over ornament.</h3>
-                <p>The work is framed through credentials, teaching posture, learner outcomes, and course craft.</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
         <section className="section academy" id="academy">
           <div className="container">
-            <p className="eyebrow">Academy / curated modules</p>
-            <h2>Courses treated as edited learning collections.</h2>
-            <div className="module-toolbar" role="toolbar" aria-label="Filter modules">
+            <div className="reveal-on-scroll">
+              <p className="eyebrow">Academy / curated modules</p>
+              <h2><HeadlineReveal>Courses treated as edited learning collections.</HeadlineReveal></h2>
+            </div>
+            <div className="module-toolbar reveal-on-scroll" role="toolbar" aria-label="Filter modules" style={{ "--reveal-delay": "80ms" } as any}>
               {categories.map((category) => (
                 <button
                   className="btn filter-btn"
@@ -168,18 +187,20 @@ function App() {
               ))}
             </div>
             <div className="modules">
-              {content.academy.map((course) => {
+              {content.academy.map((course, i) => {
                 const isMuted = filter !== "all" && filter !== course.category;
                 return (
-                  <article className={`module${isMuted ? " is-muted" : ""}`} key={course.title}>
-                    <div>
-                      <div className="module-visual" aria-hidden="true"></div>
-                      <h3>{course.title}</h3>
-                      <div className="format">{course.format}</div>
-                      <p>{course.description}</p>
-                    </div>
-                    <button className="btn btn-quiet" type="button" onClick={() => moveTo("atelier")}>Discuss this module</button>
-                  </article>
+                  <div className={`reveal-on-scroll${isMuted ? " is-muted" : ""}`} key={course.title} style={{ "--reveal-delay": `${Math.min(i * 80, 400)}ms` } as any}>
+                    <article className="module">
+                      <div>
+                        <div className="module-visual" aria-hidden="true"></div>
+                        <h3>{course.title}</h3>
+                        <div className="format">{course.format}</div>
+                        <p>{course.description}</p>
+                      </div>
+                      <button className="btn btn-quiet" type="button" onClick={() => moveTo("atelier")}>Discuss this module</button>
+                    </article>
+                  </div>
                 );
               })}
             </div>
@@ -188,12 +209,12 @@ function App() {
 
         <section className="section atelier" id="atelier">
           <div className="container atelier-grid">
-            <div>
+            <div className="reveal-on-scroll">
               <p className="eyebrow">Atelier / booking studio</p>
-              <h2>{content.atelier.headline}</h2>
+              <h2><HeadlineReveal>{content.atelier.headline}</HeadlineReveal></h2>
               <p>{content.atelier.description}</p>
             </div>
-            <div className="studio-panel">
+            <div className="studio-panel reveal-on-scroll" style={{ "--reveal-delay": "160ms" } as any}>
               <div className="calendar-head">
                 <strong>June availability</strong>
                 <span className="chip">Mock calendar</span>
@@ -227,32 +248,34 @@ function App() {
 
         <section className="section proof">
           <div className="container proof-grid">
-            <div>
+            <div className="reveal-on-scroll">
               <p className="eyebrow">Social proof / excerpts</p>
-              <h2>Notes from learners who needed clarity.</h2>
+              <h2><HeadlineReveal>Notes from learners who needed clarity.</HeadlineReveal></h2>
             </div>
             <div className="quotes">
-              {content.social_proof.map((item) => (
-                <blockquote key={item.source}>
-                  {item.quote}
-                  <cite>{item.source}</cite>
-                </blockquote>
+              {content.social_proof.map((item, i) => (
+                <div key={item.source} className="reveal-on-scroll" style={{ "--reveal-delay": `${Math.min(i * 80, 400)}ms` } as any}>
+                  <blockquote key={item.source}>
+                    {item.quote}
+                    <cite>{item.source}</cite>
+                  </blockquote>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         <section className="section closing">
-          <div className="container">
+          <div className="container reveal-on-scroll">
             <p className="eyebrow">Begin with a focused session</p>
-            <h2>Bring the question. Leave with a plan.</h2>
+            <h2><HeadlineReveal>Bring the question. Leave with a plan.</HeadlineReveal></h2>
             <p>Reserve time with TeacherPrecy for mentorship, writing review, module guidance, or a portfolio-focused studio session.</p>
             <button className="btn btn-primary" type="button" onClick={() => moveTo("atelier")}>Choose an appointment</button>
           </div>
         </section>
       </main>
 
-      <footer className="footer">
+      <footer className="footer reveal-on-scroll">
         <div className="container footer-inner">
           <span>{content.brand.name}, {content.brand.person}</span>
           <span>{content.brand.identity}</span>
