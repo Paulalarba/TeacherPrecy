@@ -5,10 +5,10 @@ export function Closing() {
   return (
     <section className="section closing">
       <div className="container reveal-on-scroll">
-        <p className="eyebrow">Begin with a focused session</p>
-        <h2><HeadlineReveal>Bring the question. Leave with a plan.</HeadlineReveal></h2>
-        <p>Reserve time with TeacherPrecy for mentorship, writing review, module guidance, or a portfolio-focused studio session.</p>
-        <Link className="btn btn-primary" to="/book">Choose an appointment</Link>
+        <p className="eyebrow">Start learning today</p>
+        <h2><HeadlineReveal>Begin your sign language or SPED journey.</HeadlineReveal></h2>
+        <p>Reserve a dedicated session with Teacher Precy for online FSL coaching, SPED consulting, or customized educational mentorship.</p>
+        <Link className="btn btn-primary" to="/book">Book a Session Now!</Link>
       </div>
     </section>
   );

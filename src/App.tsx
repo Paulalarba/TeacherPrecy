@@ -12,6 +12,7 @@ import { Closing } from "./components/Closing";
 import { Footer } from "./components/Footer";
 import { Portal } from "./components/Portal";
 import { Dashboard } from "./components/Dashboard";
+import { Gallery } from "./components/Gallery";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -105,7 +106,8 @@ function App() {
               <>
                 <RevealObserver />
                 <Hero content={content.hero} />
-                <Story content={content.narrative} />
+                <Story content={content} />
+                <Gallery />
                 <SocialProof social_proof={content.social_proof} />
                 <Closing />
               </>

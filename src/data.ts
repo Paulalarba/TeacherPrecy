@@ -2,81 +2,73 @@ export const content = {
   "brand": {
     "name": "TeacherPrecy",
     "person": "Precy Alarba",
-    "identity": "Professional educator, mentor, and online instructor",
-    "positioning": "Academic sophistication, modern accessibility, premium coaching"
+    "identity": "Special Education Teacher and a Sign Language Interpreter",
+    "positioning": "Inclusive pedagogy, Filipino Sign Language instruction, and professional educational coaching"
   },
   "hero": {
-    "kicker": "TeacherPrecy / inclusive education",
+    "kicker": "TeacherPrecy / Special Education & FSL",
     "title": "Hi, I'm Precy Alarba.",
-    "mission": "Your Special Education (SPED) teacher and mentor. I blend classroom rigor with patient mentorship to create inclusive learning paths for students of all abilities.",
-    "primaryCta": "Book a studio session",
-    "secondaryCta": "Browse curated modules"
+    "mission": "Special Education Teacher and a Sign Language Interpreter. I am willing to help you learn the Filipino Sign Language.",
+    "primaryCta": "Book a Session Now!",
+    "secondaryCta": "View Courses"
   },
   "narrative": {
-    "label": "My story",
-    "headline": "Education treated as a crafted practice.",
-    "body": "TeacherPrecy is built around a simple belief: learners thrive when lessons feel intentional, paced, and human. Precy's work combines the patience of a classroom educator with the precision of an academic coach, helping students move from uncertainty to confident practice."
+    "label": "My Story & Educational Background",
+    "headline": "When I first learned how to dream, I always wanted to become a teacher because I want to help children.",
+    "body": "In 2019, I graduated with a Bachelor of Elementary Education, major in Special Education. In 2022, I completed a Master of Arts in Education major in Special Education, and I am currently pursuing my doctoral degree."
   },
-  "credentials": [
-    {
-      "area": "Teaching practice",
-      "detail": "Professional educator with mentoring experience across guided lessons, study systems, and reflective feedback."
-    },
-    {
-      "area": "Online instruction",
-      "detail": "Builds accessible digital learning paths with clear checkpoints, session notes, and learner-friendly pacing."
-    },
-    {
-      "area": "Academic coaching",
-      "detail": "Supports students through targeted review, skills diagnosis, portfolio preparation, and accountability rhythms."
-    }
-  ],
+  "professional_expertise": "I studied and learned Filipino Sign Language since 2017. I am teaching and volunteering in any activities (seminars, court cases, handling classes both face-to-face and online) that may include the Deaf community.",
   "expertise": [
-    "Lesson architecture",
-    "Study planning",
-    "Academic writing",
-    "Portfolio coaching",
-    "Feedback systems",
-    "Learner confidence"
+    "Special Education (SPED) Teaching",
+    "Filipino Sign Language (FSL) Instruction",
+    "Webinar & Seminar FSL Interpreting",
+    "Song Interpretation in Sign Language",
+    "Braille Reading & Writing",
+    "Courtroom & Legal Interpreting",
+    "Deaf Culture & Community Advocacy",
+    "Online & Face-to-Face Tutoring",
+    "IEP Design & Implementation",
+    "Inclusive Learning Environments"
   ],
   "academy": [
     {
-      "title": "Foundations of disciplined study",
-      "format": "4-week guided module",
-      "category": "study",
-      "description": "A structured reset for students who need a repeatable study rhythm, clearer notes, and stronger weekly accountability."
+      "title": "Filipino Sign Language (FSL) Basics",
+      "format": "4-week online module",
+      "category": "Sign Language",
+      "description": "Master the manual alphabet, basic vocabulary, common conversational greetings, and the fundamental grammar of Filipino Sign Language (FSL)."
     },
     {
-      "title": "Academic writing studio",
-      "format": "6-session editorial practicum",
-      "category": "writing",
-      "description": "A hands-on module for outlining, drafting, revising, and presenting written work with confidence and restraint."
+      "title": "Deaf Culture & Intermediate FSL",
+      "format": "6-session interactive studio",
+      "category": "Sign Language",
+      "description": "Develop intermediate conversational fluency, vocabulary expansion, and gain a deep understanding of Deaf culture, history, and community advocacy."
     },
     {
-      "title": "Portfolio and presentation lab",
-      "format": "Mentored review track",
-      "category": "portfolio",
-      "description": "A curated coaching path for learners preparing academic portfolios, oral presentations, or scholarship materials."
+      "title": "Special Education & Inclusive Teaching",
+      "format": "Mentored coaching track",
+      "category": "Special Education",
+      "description": "A tailored guidance and consulting track for public school teachers, parents, and volunteers working with children who have special educational needs."
     }
   ],
   "atelier": {
     "headline": "Appointment studio",
-    "description": "Choose a session rhythm, then reserve a calendar window for coaching, review, or a focused learning consultation.",
+    "description": "Choose a session rhythm, then reserve a calendar window for FSL coaching, SPED consulting, or interpreting prep.",
     "slots": [
-      { "day": "Tue", "time": "10:00", "type": "Mentorship", "available": true },
-      { "day": "Wed", "time": "14:30", "type": "Writing review", "available": true },
-      { "day": "Thu", "time": "16:00", "type": "Course consult", "available": false },
-      { "day": "Sat", "time": "09:30", "type": "Portfolio lab", "available": true }
+      { "day": "Tue", "time": "10:00", "type": "FSL Basic Coaching", "available": true },
+      { "day": "Wed", "time": "14:30", "type": "SPED Consultation", "available": true },
+      { "day": "Thu", "time": "16:00", "type": "Interpreting Prep", "available": false },
+      { "day": "Sat", "time": "09:30", "type": "Advanced FSL Practicum", "available": true }
     ]
   },
   "social_proof": [
     {
-      "quote": "Precy makes learning feel organized and possible. Her feedback is calm, specific, and easy to act on.",
-      "source": "Mentorship student"
+      "quote": "Teacher Precy makes Filipino Sign Language easy to grasp. Her lessons are structured, patient, and full of cultural context.",
+      "source": "FSL Student"
     },
     {
-      "quote": "The sessions helped me understand what to improve first, instead of trying to fix everything at once.",
-      "source": "Writing studio learner"
+      "quote": "The special education guidance was incredibly tailored. She understands how to structure material for diverse learning styles.",
+      "source": "Inclusive Classroom Parent"
     }
   ]
 };
+
