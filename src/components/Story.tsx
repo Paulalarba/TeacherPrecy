@@ -19,12 +19,12 @@ export function Story({ content }: StoryProps) {
         {/* Left Column: Story & Background */}
         <div className="reveal-on-scroll">
           <p className="eyebrow">{content.narrative.label}</p>
-          <h2 style={{ maxWidth: "100%" }}><HeadlineReveal>{content.narrative.headline}</HeadlineReveal></h2>
+          <h2 style={{ maxWidth: "100%", fontSize: "clamp(24px, 3.5vw, 36px)", lineHeight: "1.25" }}><HeadlineReveal>{content.narrative.headline}</HeadlineReveal></h2>
           <p 
             className="story-body" 
             style={{ 
               marginTop: "var(--space-6)", 
-              fontSize: "var(--text-lg)", 
+              fontSize: "var(--text-base)", 
               lineHeight: "var(--leading-body)", 
               color: "var(--voice)" 
             }}
