@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { moveTo, ModeIcon } from "./Utils";
 
@@ -12,6 +13,19 @@ interface NavigationProps {
 export function Navigation({ brandName, mode, toggleMode, user, onLogout }: NavigationProps) {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header className="nav">
@@ -21,7 +35,7 @@ export function Navigation({ brandName, mode, toggleMode, user, onLogout }: Navi
           to="/" 
           onClick={() => isHome && moveTo("hero")}
         >
-          {brandName} <span>Atelier Zero</span>
+          <img src="/Logo.png" alt={brandName} className="header-logo" />
         </Link>
         <nav className="nav-links" aria-label="Primary navigation">
           <Link to="/" onClick={() => isHome && moveTo("hero")}>Home</Link>
@@ -54,6 +68,11 @@ export function Navigation({ brandName, mode, toggleMode, user, onLogout }: Navi
           )}
         </div>
       </div>
+      {/* Scroll progress bar */}
+      <div 
+        className="nav-progress-bar" 
+        style={{ width: `${scrollProgress}%` }} 
+      />
     </header>
   );
 }

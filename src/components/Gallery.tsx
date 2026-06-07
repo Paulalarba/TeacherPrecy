@@ -39,7 +39,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     tags: ["Teaching", "Inclusive"],
   },
   {
-    src: "/Pic2.jpg",
+    src: "/Pic8.jpg",
     alt: "Filipino Sign Language Online Class",
     title: "ONLINE FSL TUTORING",
     description:
@@ -57,7 +57,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     tags: ["Community", "Advocacy"],
   },
   {
-    src: "/Pic4.jpg",
+    src: "/Pic5.jpg",
     alt: "FSL Webinar Song Interpretation",
     title: "SONG SIGN INTERPRETATION",
     description:
@@ -106,36 +106,9 @@ const GALLERY_ITEMS: GalleryItem[] = [
 export function Gallery() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Parallax scroll effect for images
+  // Parallax scroll effect for images removed as per request
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const cards = section.querySelectorAll<HTMLElement>(".showcase-card");
-
-    function handleScroll() {
-      const viewportH = window.innerHeight;
-
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const img = card.querySelector<HTMLElement>(".showcase-image");
-        if (!img) return;
-
-        // Calculate how far the card is through the viewport
-        const cardCenter = rect.top + rect.height / 2;
-        const viewportCenter = viewportH / 2;
-        const offset = (cardCenter - viewportCenter) / viewportH;
-
-        // Apply parallax translation to image (subtle, smooth)
-        const translateY = offset * -40;
-        img.style.transform = `scale(1.08) translateY(${translateY}px)`;
-      });
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial call
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Scroll observation logic is now handled globally in App.tsx via .reveal-on-scroll
   }, []);
 
   return (
