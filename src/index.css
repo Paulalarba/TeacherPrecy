@@ -412,7 +412,7 @@ img, svg { display: block; max-width: 100%; }
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   gap: clamp(var(--space-8), 8vw, var(--space-20));
   align-items: center;
 }
@@ -427,7 +427,7 @@ img, svg { display: block; max-width: 100%; }
 }
 .hero h1 {
   line-height: 1;
-  max-width: 12ch;
+  max-width: 25ch;
   margin-bottom: var(--space-6);
 }
 .hero-copy {
@@ -440,8 +440,9 @@ img, svg { display: block; max-width: 100%; }
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-4); }
 .collage {
-  min-height: 620px;
   position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
 }
 .plate {
   position: absolute;
@@ -1066,7 +1067,6 @@ blockquote cite {
   .nav-inner { gap: var(--space-4); }
   .nav-links { display: none; }
   .hero-grid, .chapter-index, .portfolio-head, .atelier-grid { grid-template-columns: 1fr; gap: var(--space-12); }
-  .collage { min-height: 520px; }
   .tile-large, .tile-tall, .tile-small { grid-column: span 12; min-height: auto; }
   .modules { grid-template-columns: 1fr; }
   .narrative-body { max-width: none; }
@@ -1082,7 +1082,6 @@ blockquote cite {
   .nav-actions .btn-primary { display: none; }
   .hero { min-height: auto; padding-block: var(--space-20); }
   .hero-grid { gap: var(--space-12); }
-  .collage { min-height: 400px; }
   .plate-portrait { width: 70%; right: 0; }
   .plate-architecture { width: 60%; }
   .plate-notes { width: 55%; }
@@ -1104,18 +1103,18 @@ blockquote cite {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 120px);
-  padding: var(--space-12) var(--space-4);
+  padding: var(--space-6) var(--space-4);
   position: relative;
   z-index: 1;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 440px;
+  max-width: 400px;
   background: var(--plate);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  padding: var(--space-8);
+  padding: clamp(var(--space-6), 5vw, var(--space-8));
   box-shadow: var(--elev-raised);
   transition: transform 300ms var(--ease-standard), box-shadow 300ms var(--ease-standard), background-color 900ms var(--ease-page);
 }
@@ -1126,7 +1125,7 @@ blockquote cite {
 
 .auth-header {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .auth-header p {
@@ -1138,7 +1137,7 @@ blockquote cite {
 }
 
 .auth-title-row {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 .auth-title-row h2 {
@@ -1272,7 +1271,7 @@ blockquote cite {
 .auth-divider {
   position: relative;
   text-align: center;
-  margin-block: var(--space-6);
+  margin-block: var(--space-4);
 }
 
 .auth-divider::before {
@@ -1296,6 +1295,40 @@ blockquote cite {
   color: var(--voice);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+.social-auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink);
+  transition: all var(--motion-base) var(--ease-standard);
+}
+
+.btn-social:hover {
+  background: var(--plate);
+  border-color: var(--voice);
+  transform: translateY(-1px);
+}
+
+.btn-social:active {
+  transform: translateY(0);
 }
 
 .auth-switch-text {

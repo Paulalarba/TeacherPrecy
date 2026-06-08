@@ -61,10 +61,7 @@ export function Navigation({ brandName, mode, toggleMode, user, onLogout }: Navi
               </button>
             </>
           ) : (
-            <>
-              <Link className="btn btn-quiet" to="/portal">Sign In</Link>
-              <Link className="btn btn-primary" to="/portal?mode=signup">Join Atelier</Link>
-            </>
+            <Link className="btn btn-primary" to="/portal?mode=signup">Join Now</Link>
           )}
         </div>
       </div>

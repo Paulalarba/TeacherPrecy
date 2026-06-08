@@ -30,11 +30,9 @@ export function Hero({ content }: HeroProps) {
           <div className="plate plate-portrait" data-label="Precy Alarba">
             <img src="/Profile.jpg" alt="Precy Alarba" />
           </div>
-          <div className="plate plate-architecture" data-label="Inclusive space">
-            <img src="/image.png" alt="Inclusive learning environment" />
+          <div className="plate plate-architecture">
+            <img src="/image.png" alt="Graduation pic" />
           </div>
-          <div className="plate plate-notes" data-label="Lesson archive"></div>
-          <div className="folio-note">Professional Educator / SPED Mentor</div>
         </div>
       </div>
     </section>

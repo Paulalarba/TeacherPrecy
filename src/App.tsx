@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase";
 import { content } from "./data";
 import { BackgroundDecor } from "./components/BackgroundDecor";
 import { Navigation } from "./components/Navigation";
@@ -56,10 +58,24 @@ function App() {
   const [mode, setMode] = useState(() => localStorage.getItem("teacherprecy-mode") || "gallery");
   const [filter, setFilter] = useState("all");
   const [selectedSlot, setSelectedSlot] = useState(0);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(() => {
-    const saved = localStorage.getItem("teacherprecy-user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [initializing, setInitializing] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          name: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "User",
+          email: firebaseUser.email || "",
+        });
+      } else {
+        setUser(null);
+      }
+      setInitializing(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     document.documentElement.dataset.mode = mode === "studio" ? "studio" : "gallery";
@@ -74,17 +90,34 @@ function App() {
     }, 240);
   }
 
-  const handleLogin = (userData: { name: string; email: string }) => {
-    setUser(userData);
-    localStorage.setItem("teacherprecy-user", JSON.stringify(userData));
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("teacherprecy-user");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   const categories = useMemo(() => ["all", ...new Set(content.academy.map((item) => item.category))], []);
+
+  if (initializing) {
+    return (
+      <div 
+        className="loading-screen" 
+        style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          height: "100vh", 
+          fontFamily: "var(--font-caption)",
+          background: "var(--paper)",
+          color: "var(--ink)"
+        }}
+      >
+        Initializing Atelier...
+      </div>
+    );
+  }
 
   return (
     <Router>
@@ -136,7 +169,7 @@ function App() {
             <Route path="/portal" element={
               <>
                 <RevealObserver />
-                <Portal user={user} onLogin={handleLogin} />
+                <Portal user={user} />
               </>
             } />
             <Route path="/dashboard" element={
