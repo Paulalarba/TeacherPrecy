@@ -1,3 +1,5 @@
+#inv files
+.env
 # Logs
 logs
 *.log
@@ -14,6 +16,7 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
+.env
 !.vscode/extensions.json
 .idea
 .DS_Store
