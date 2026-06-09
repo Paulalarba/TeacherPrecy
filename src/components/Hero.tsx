@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { HeadlineReveal } from "./HeadlineReveal";
 
@@ -26,7 +27,7 @@ export function Hero({ content }: HeroProps) {
             <Link className="btn btn-quiet" to="/academy">{content.secondaryCta}</Link>
           </div>
         </div>
-        <div className="collage reveal-on-scroll" aria-label="Editorial collage placeholders" style={{ "--reveal-delay": "200ms" } as any}>
+        <div className="collage reveal-on-scroll" aria-label="Editorial collage placeholders" style={{ "--reveal-delay": "200ms" } as CSSProperties}>
           <div className="plate plate-portrait" data-label="Precy Alarba">
             <img src="/Profile.jpg" alt="Precy Alarba" />
           </div>

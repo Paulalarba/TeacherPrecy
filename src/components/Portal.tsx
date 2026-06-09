@@ -5,7 +5,8 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   updateProfile,
-  signInWithPopup 
+  signInWithPopup,
+  type AuthProvider
 } from "firebase/auth";
 import { auth, googleProvider, facebookProvider } from "../firebase";
 
@@ -88,38 +89,40 @@ export function Portal({ user }: PortalProps) {
           handleModeSwitch(true);
         }, 3000);
       }
-    } catch (err: any) {
-      console.error("Auth error:", err);
-      if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
+    } catch (err: unknown) {
+      const error = err as { code?: string };
+      console.error("Auth error:", error);
+      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password" || error.code === "auth/invalid-credential") {
         setError("Invalid email or password.");
-      } else if (err.code === "auth/email-already-in-use") {
+      } else if (error.code === "auth/email-already-in-use") {
         setError("This email is already registered.");
-      } else if (err.code === "auth/weak-password") {
+      } else if (error.code === "auth/weak-password") {
         setError("Password should be at least 6 characters.");
-      } else if (err.code === "auth/network-request-failed") {
+      } else if (error.code === "auth/network-request-failed") {
         setError("Network error. Please check your internet connection.");
       } else {
-        setError(`Authentication failed: ${err.code || "unknown error"}`);
+        setError(`Authentication failed: ${error.code || "unknown error"}`);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSocialLogin = async (provider: any) => {
+  const handleSocialLogin = async (provider: AuthProvider) => {
     setError("");
     setIsLoading(true);
     try {
       await signInWithPopup(auth, provider);
       navigate("/dashboard");
-    } catch (err: any) {
-      console.error("Social Auth error:", err);
-      if (err.code === "auth/operation-not-allowed") {
+    } catch (err: unknown) {
+      const error = err as { code?: string };
+      console.error("Social Auth error:", error);
+      if (error.code === "auth/operation-not-allowed") {
         setError("Google/Facebook login is not enabled in your Firebase Console.");
-      } else if (err.code === "auth/unauthorized-domain") {
+      } else if (error.code === "auth/unauthorized-domain") {
         setError("This domain is not authorized in Firebase Console > Authentication > Settings.");
-      } else if (err.code !== "auth/popup-closed-by-user") {
-        setError(`Authentication failed: ${err.code}`);
+      } else if (error.code !== "auth/popup-closed-by-user") {
+        setError(`Authentication failed: ${error.code}`);
       }
     } finally {
       setIsLoading(false);

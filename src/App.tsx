@@ -32,7 +32,7 @@ function ScrollToTop() {
   return null;
 }
 
-function RevealObserver({ depend }: { depend?: any }) {
+function RevealObserver({ depend }: { depend?: unknown }) {
   const { key } = useLocation();
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +57,6 @@ function RevealObserver({ depend }: { depend?: any }) {
 function App() {
   const [mode, setMode] = useState(() => localStorage.getItem("teacherprecy-mode") || "gallery");
   const [filter, setFilter] = useState("all");
-  const [selectedSlot, setSelectedSlot] = useState(0);
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [initializing, setInitializing] = useState(true);
 
@@ -161,8 +160,7 @@ function App() {
                 <RevealObserver />
                 <Atelier 
                   atelier={content.atelier} 
-                  selectedSlot={selectedSlot} 
-                  setSelectedSlot={setSelectedSlot} 
+                  user={user}
                 />
               </>
             } />

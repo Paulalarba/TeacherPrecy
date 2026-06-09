@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { HeadlineReveal } from "./HeadlineReveal";
 
@@ -21,7 +22,7 @@ export function Academy({ academy, categories, filter, setFilter }: AcademyProps
           <p className="eyebrow">Academy / curated modules</p>
           <h2><HeadlineReveal>Courses treated as edited learning collections.</HeadlineReveal></h2>
         </div>
-        <div className="module-toolbar reveal-on-scroll" role="toolbar" aria-label="Filter modules" style={{ "--reveal-delay": "80ms" } as any}>
+        <div className="module-toolbar reveal-on-scroll" role="toolbar" aria-label="Filter modules" style={{ "--reveal-delay": "80ms" } as CSSProperties}>
           {categories.map((category) => (
             <button
               className="btn filter-btn"
@@ -38,7 +39,7 @@ export function Academy({ academy, categories, filter, setFilter }: AcademyProps
           {academy.map((course, i) => {
             const isMuted = filter !== "all" && filter !== course.category;
             return (
-              <div className={`reveal-on-scroll${isMuted ? " is-muted" : ""}`} key={course.title} style={{ "--reveal-delay": `${Math.min(i * 80, 400)}ms` } as any}>
+              <div className={`reveal-on-scroll${isMuted ? " is-muted" : ""}`} key={course.title} style={{ "--reveal-delay": `${Math.min(i * 80, 400)}ms` } as CSSProperties}>
                 <article className="module">
                   <div>
                     <div className="module-visual" aria-hidden="true"></div>

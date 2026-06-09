@@ -53,6 +53,11 @@ export const content = {
   "atelier": {
     "headline": "Appointment studio",
     "description": "Choose a session rhythm, then reserve a calendar window for FSL coaching, SPED consulting, or interpreting prep.",
+    "sessionTypes": [
+      { "id": "daily", "title": "Daily Rhythm", "description": "Intensive one-on-one session for rapid progress.", "price": 500, "duration": "1 hour" },
+      { "id": "weekly", "title": "Weekly Studio", "description": "Regular mentorship for consistent skill building.", "price": 1800, "duration": "4 sessions/mo" },
+      { "id": "monthly", "title": "Monthly Track", "description": "Deep-dive immersion and comprehensive coaching.", "price": 6500, "duration": "Unlimited support" }
+    ],
     "slots": [
       { "day": "Tue", "time": "10:00", "type": "FSL Basic Coaching", "available": true },
       { "day": "Wed", "time": "14:30", "type": "SPED Consultation", "available": true },

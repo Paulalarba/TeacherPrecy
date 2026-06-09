@@ -7,8 +7,20 @@ import {
   FileText, 
   Download, 
   LogOut, 
-  Compass
+  Compass,
+  XCircle,
+  RefreshCcw,
+  AlertCircle
 } from "lucide-react";
+import { 
+  collection, 
+  query, 
+  where, 
+  onSnapshot, 
+  deleteDoc, 
+  doc 
+} from "firebase/firestore";
+import { db } from "../firebase";
 
 interface DashboardProps {
   user: { name: string; email: string } | null;
@@ -21,9 +33,20 @@ interface DashboardProps {
   }>;
 }
 
+interface Booking {
+  id: string;
+  sessionType: string;
+  day: string;
+  time: string;
+  status: string;
+  price: number;
+}
+
 export function Dashboard({ user, onLogout, academy }: DashboardProps) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Redirect to portal if not logged in
   useEffect(() => {
@@ -32,19 +55,66 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
     }
   }, [user, navigate]);
 
+  // Fetch real-time bookings from Firestore
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(
+      collection(db, "bookings"), 
+      where("userId", "==", user.email)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const bookingsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Booking[];
+      setBookings(bookingsData);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
   if (!user) return null;
 
   // Mock progress values
   const progressMap: Record<string, number> = {
-    "Foundations of disciplined study": 75,
-    "Academic writing studio": 30,
-    "Portfolio and presentation lab": 0
+    "Filipino Sign Language (FSL) Basics": 75,
+    "Deaf Culture & Intermediate FSL": 30,
+    "Special Education & Inclusive Teaching": 0
   };
 
   const handleLogoutClick = () => {
     onLogout();
     navigate("/");
   };
+
+  const cancelBooking = async (id: string) => {
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
+      try {
+        await deleteDoc(doc(db, "bookings", id));
+      } catch (error) {
+        console.error("Error cancelling booking:", error);
+        alert("Failed to cancel booking. Please try again.");
+      }
+    }
+  };
+
+  const rescheduleBooking = async (id: string) => {
+    // For this demo, we'll just show a message or redirect to book
+    // A real implementation would allow picking a new date/time
+    if (window.confirm("To reschedule, we will cancel this booking and you can select a new time. Proceed?")) {
+      try {
+        await deleteDoc(doc(db, "bookings", id));
+        navigate("/book");
+      } catch (error) {
+        console.error("Error rescheduling:", error);
+      }
+    }
+  };
+
+  const nextSession = bookings.length > 0 ? bookings[0] : null;
 
   return (
     <div className="container reveal" style={{ paddingBlock: "var(--space-8)" }}>
@@ -127,20 +197,20 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
               {/* Stats Grid */}
               <div className="dashboard-stats">
                 <div className="stat-card">
-                  <span className="stat-val">2</span>
-                  <span className="stat-lbl">Active Modules</span>
+                  <span className="stat-val">{academy.length}</span>
+                  <span className="stat-lbl">Available Modules</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-val">12.5 hrs</span>
-                  <span className="stat-lbl">Mentoring Hours</span>
+                  <span className="stat-val">{bookings.length}</span>
+                  <span className="stat-lbl">Active Bookings</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-val">Tue 10:00</span>
+                  <span className="stat-val">{nextSession ? `${nextSession.day} ${nextSession.time}` : "None"}</span>
                   <span className="stat-lbl">Next Session</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-val">92%</span>
-                  <span className="stat-lbl">Task Completion</span>
+                  <span className="stat-val">FSL</span>
+                  <span className="stat-lbl">Primary Focus</span>
                 </div>
               </div>
 
@@ -148,7 +218,7 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
               <div className="dashboard-panel">
                 <h4 className="panel-title">Current Study Progress</h4>
                 <div className="module-progress-list">
-                  {academy.slice(0, 2).map((item) => {
+                  {academy.map((item) => {
                     const progress = progressMap[item.title] ?? 0;
                     return (
                       <div key={item.title} className="module-progress-item">
@@ -166,18 +236,20 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
               </div>
 
               {/* Next Session Preview */}
-              <div className="dashboard-panel" style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px" }}>
-                <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                  <div style={{ width: "48px", height: "48px", borderRadius: "10px", background: "rgba(47, 111, 235, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--signal)" }}>
-                    <Clock size={24} />
+              {nextSession && (
+                <div className="dashboard-panel" style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px" }}>
+                  <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                    <div style={{ width: "48px", height: "48px", borderRadius: "10px", background: "rgba(47, 111, 235, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--signal)" }}>
+                      <Clock size={24} />
+                    </div>
+                    <div>
+                      <h5 style={{ fontWeight: 600, margin: 0 }}>Upcoming {nextSession.sessionType}</h5>
+                      <p style={{ margin: 0, fontSize: "var(--text-sm)", color: "var(--voice)" }}>{nextSession.day} at {nextSession.time} (Online Atelier)</p>
+                    </div>
                   </div>
-                  <div>
-                    <h5 style={{ fontWeight: 600, margin: 0 }}>Upcoming Mentorship Review</h5>
-                    <p style={{ margin: 0, fontSize: "var(--text-sm)", color: "var(--voice)" }}>Tuesday, June 9 at 10:00 AM (Online Atelier)</p>
-                  </div>
+                  <a href="https://zoom.us" target="_blank" rel="noreferrer" className="btn btn-primary">Join Room</a>
                 </div>
-                <a href="https://zoom.us" target="_blank" rel="noreferrer" className="btn btn-primary">Join Room</a>
-              </div>
+              )}
             </div>
           )}
 
@@ -226,21 +298,47 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
               <div className="dashboard-panel">
                 <h4 className="panel-title">Scheduled Sessions</h4>
                 <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px", border: "1px solid var(--line)", borderRadius: "var(--radius-sm)", background: "var(--paper)" }}>
-                    <div>
-                      <strong>Tuesday, June 9 • 10:00 AM</strong>
-                      <div style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>Mentorship Consultation (45 min)</div>
+                  {loading ? (
+                    <p>Loading your sessions...</p>
+                  ) : bookings.length === 0 ? (
+                    <div style={{ textAlign: "center", padding: "var(--space-8)" }}>
+                      <AlertCircle size={32} style={{ margin: "0 auto var(--space-3)", color: "var(--voice)" }} />
+                      <p>You have no scheduled sessions yet.</p>
+                      <Link to="/book" className="btn btn-quiet" style={{ marginTop: "12px" }}>Book your first session</Link>
                     </div>
-                    <span className="chip" style={{ background: "rgba(23, 163, 74, 0.1)", color: "var(--success)" }}>Confirmed</span>
-                  </div>
-                  
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px", border: "1px solid var(--line)", borderRadius: "var(--radius-sm)", opacity: 0.6 }}>
-                    <div>
-                      <strong>Saturday, June 13 • 09:30 AM</strong>
-                      <div style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>Portfolio Review Lab (60 min)</div>
-                    </div>
-                    <span className="chip" style={{ background: "var(--line)", color: "var(--voice)" }}>Pending Action</span>
-                  </div>
+                  ) : (
+                    bookings.map(booking => (
+                      <div key={booking.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", border: "1px solid var(--line)", borderRadius: "var(--radius-sm)", background: "var(--paper)", flexWrap: "wrap", gap: "16px" }}>
+                        <div style={{ flexGrow: 1 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                            <strong style={{ fontSize: "16px" }}>{booking.day} • {booking.time}</strong>
+                            <span className="chip" style={{ background: "rgba(23, 163, 74, 0.1)", color: "var(--success)" }}>{booking.status}</span>
+                          </div>
+                          <div style={{ fontSize: "var(--text-sm)", color: "var(--voice)" }}>
+                            {booking.sessionType} (₱{booking.price})
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          <button 
+                            type="button" 
+                            className="btn btn-quiet" 
+                            style={{ padding: "8px 12px", minHeight: "36px", fontSize: "13px" }}
+                            onClick={() => rescheduleBooking(booking.id)}
+                          >
+                            <RefreshCcw size={14} /> Reschedule
+                          </button>
+                          <button 
+                            type="button" 
+                            className="btn btn-quiet" 
+                            style={{ padding: "8px 12px", minHeight: "36px", fontSize: "13px", color: "var(--danger)" }}
+                            onClick={() => cancelBooking(booking.id)}
+                          >
+                            <XCircle size={14} /> Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 
@@ -264,7 +362,7 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
                 
                 <div className="feedback-card">
                   <p className="feedback-text">
-                    "Your study rhythm has improved significantly over the past two weeks. I noticed your outline for the academic essay is much more structured. For our next session, let's refine the transitional arguments between the second and third sections."
+                    "Your Sign Language fluency has improved significantly! I noticed your hand positioning for 'Teacher' is much more natural now. Let's focus on conversational speed in our next session."
                   </p>
                   <div className="feedback-author">
                     Precy Alarba • 2 days ago
@@ -273,7 +371,7 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
 
                 <div className="feedback-card" style={{ borderLeftColor: "var(--voice)" }}>
                   <p className="feedback-text">
-                    "Welcome to Atelier Zero! I have attached the initial Study Foundations syllabus. Please review the first module checklist before our initial call so we can target your specific goals."
+                    "Welcome to our FSL community! I have attached the basic alphabet guide. Please review it before our first session so we can jump straight into greetings."
                   </p>
                   <div className="feedback-author">
                     Precy Alarba • 1 week ago
@@ -285,29 +383,29 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
               <div className="dashboard-panel">
                 <h4 className="panel-title">Shared Studio Resources</h4>
                 <div className="download-link-list">
-                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading Studio Study Manual..."); }}>
+                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading FSL Alphabet Guide..."); }}>
                     <FileText size={20} />
                     <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>Atelier Study Manual</span>
-                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>PDF • 1.4 MB</span>
+                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>FSL Alphabet Guide</span>
+                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>PDF • 2.4 MB</span>
                     </div>
                     <Download size={16} style={{ color: "var(--voice)" }} />
                   </a>
 
-                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading Academic Writing Template..."); }}>
+                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading SPED IEP Template..."); }}>
                     <FileText size={20} />
                     <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>Academic Essay Guide</span>
-                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>PDF • 820 KB</span>
+                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>IEP Development Guide</span>
+                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>PDF • 1.2 MB</span>
                     </div>
                     <Download size={16} style={{ color: "var(--voice)" }} />
                   </a>
 
-                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading Weekly Checklist..."); }}>
+                  <a href="#download" className="download-btn" onClick={(e) => { e.preventDefault(); alert("Downloading Weekly Practice Log..."); }}>
                     <FileText size={20} />
                     <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>Weekly Study Rhythm</span>
-                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>XLSX • 120 KB</span>
+                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>Weekly FSL Log</span>
+                      <span style={{ fontSize: "var(--text-xs)", color: "var(--voice)" }}>XLSX • 150 KB</span>
                     </div>
                     <Download size={16} style={{ color: "var(--voice)" }} />
                   </a>
