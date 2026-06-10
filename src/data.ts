@@ -32,22 +32,91 @@ export const content = {
   ],
   "academy": [
     {
+      "id": "fsl-basics",
       "title": "Filipino Sign Language (FSL) Basics",
       "format": "4-week online module",
       "category": "Sign Language",
-      "description": "Master the manual alphabet, basic vocabulary, common conversational greetings, and the fundamental grammar of Filipino Sign Language (FSL)."
+      "description": "Master the manual alphabet, basic vocabulary, common conversational greetings, and the fundamental grammar of Filipino Sign Language (FSL).",
+      "lessons": [
+        {
+          "id": "intro-fsl",
+          "title": "Introduction to FSL",
+          "youtubeId": "dQw4w9WgXcQ",
+          "quiz": {
+            "question": "What does FSL stand for?",
+            "options": [
+              "Filipino Sign Language",
+              "Foreign Sign Language",
+              "Formal Sign Language",
+              "Functional Sign Language"
+            ],
+            "correctAnswer": 0
+          }
+        },
+        {
+          "id": "alphabet-1",
+          "title": "The Manual Alphabet (A-M)",
+          "youtubeId": "dQw4w9WgXcQ",
+          "quiz": {
+            "question": "Which hand is typically used for signing in FSL?",
+            "options": [
+              "Left hand only",
+              "Your dominant hand",
+              "Both hands equally for everything",
+              "The hand you don't write with"
+            ],
+            "correctAnswer": 1
+          }
+        }
+      ]
     },
     {
+      "id": "deaf-culture",
       "title": "Deaf Culture & Intermediate FSL",
       "format": "6-session interactive studio",
       "category": "Sign Language",
-      "description": "Develop intermediate conversational fluency, vocabulary expansion, and gain a deep understanding of Deaf culture, history, and community advocacy."
+      "description": "Develop intermediate conversational fluency, vocabulary expansion, and gain a deep understanding of Deaf culture, history, and community advocacy.",
+      "lessons": [
+        {
+          "id": "deaf-identity",
+          "title": "Understanding Deaf Identity",
+          "youtubeId": "dQw4w9WgXcQ",
+          "quiz": {
+            "question": "Deaf Culture is primarily built around which of the following?",
+            "options": [
+              "Lip reading skills",
+              "Shared language and experiences",
+              "Medical treatments",
+              "Hearing aids"
+            ],
+            "correctAnswer": 1
+          }
+        }
+      ]
     },
     {
+      "id": "sped-coaching",
       "title": "Special Education & Inclusive Teaching",
       "format": "Mentored coaching track",
       "category": "Special Education",
-      "description": "A tailored guidance and consulting track for public school teachers, parents, and volunteers working with children who have special educational needs."
+      "description": "A tailored guidance and consulting track for public school teachers, parents, and volunteers working with children who have special educational needs.",
+      "lessons": [
+        {
+          "id": "intro-sped",
+          "title": "Foundations of Special Education",
+          "youtubeId": "dQw4w9WgXcQ",
+          "quiz": {
+            "question": "What is the primary goal of an IEP?",
+            "options": [
+              "To grade students harder",
+              "To provide individualized educational support",
+              "To exclude students from regular classes",
+              "To record medical history only"
+            ],
+            "correctAnswer": 1
+          }
+        }
+      ]
     }
   ],
   "atelier": {

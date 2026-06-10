@@ -8,6 +8,7 @@ import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { Story } from "./components/Story";
 import { Academy } from "./components/Academy";
+import { CourseView } from "./components/CourseView";
 import { Atelier } from "./components/Atelier";
 import { SocialProof } from "./components/SocialProof";
 import { Closing } from "./components/Closing";
@@ -148,6 +149,7 @@ function App() {
               <>
                 <RevealObserver depend={filter} />
                 <Academy 
+                  user={user}
                   academy={content.academy} 
                   categories={categories} 
                   filter={filter} 
@@ -155,6 +157,7 @@ function App() {
                 />
               </>
             } />
+            <Route path="/academy/:courseId" element={<CourseView user={user} />} />
             <Route path="/book" element={
               <>
                 <RevealObserver />

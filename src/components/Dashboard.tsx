@@ -268,9 +268,9 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
                         <h4 style={{ fontSize: "var(--text-lg)", fontWeight: 600, marginTop: "var(--space-2)" }}>{item.title}</h4>
                       </div>
                       {progress > 0 ? (
-                        <button type="button" className="btn btn-quiet">Resume Module</button>
+                        <Link to={`/academy/${(item as any).id}`} className="btn btn-quiet">Resume Module</Link>
                       ) : (
-                        <button type="button" className="btn btn-primary">Start Module</button>
+                        <Link to={`/academy/${(item as any).id}`} className="btn btn-primary">Start Module</Link>
                       )}
                     </div>
                     <p style={{ color: "var(--voice)", fontSize: "var(--text-sm)", marginBlock: "var(--space-2)" }}>{item.description}</p>
