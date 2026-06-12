@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { HeadlineReveal } from "./HeadlineReveal";
 
 interface StoryProps {
@@ -34,7 +35,7 @@ export function Story({ content }: StoryProps) {
         </div>
 
         {/* Right Column: Professional Expertise & Skills Cloud */}
-        <div className="reveal-on-scroll" style={{ "--reveal-delay": "150ms" } as any}>
+        <div className="reveal-on-scroll" style={{ "--reveal-delay": "150ms" } as CSSProperties}>
           <div style={{ marginBottom: "var(--space-12)" }}>
             <p className="eyebrow" style={{ marginBottom: "var(--space-3)" }}>Professional Expertise</p>
             <p 

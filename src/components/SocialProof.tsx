@@ -1,5 +1,5 @@
 import { HeadlineReveal } from "./HeadlineReveal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 interface SocialProofProps {
   social_proof: Array<{
@@ -70,7 +70,7 @@ export function SocialProof({ social_proof }: SocialProofProps) {
             <div
               key={`proof-${i}`}
               className="proof-card"
-              style={{ "--card-index": i % social_proof.length } as any}
+              style={{ "--card-index": i % social_proof.length } as CSSProperties}
             >
               {/* Decorative quote glyph */}
               <div className="proof-card-quote-icon" aria-hidden="true">

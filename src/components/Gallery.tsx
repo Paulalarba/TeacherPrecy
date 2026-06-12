@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { type CSSProperties } from "react";
 import { HeadlineReveal } from "./HeadlineReveal";
 
 interface GalleryItem {
@@ -134,7 +135,7 @@ export function Gallery() {
           <div
             key={item.src}
             className={`showcase-card reveal-on-scroll ${index % 2 !== 0 ? "showcase-card--reversed" : ""}`}
-            style={{ "--reveal-delay": `${Math.min(index * 60, 300)}ms` } as any}
+            style={{ "--reveal-delay": `${Math.min(index * 60, 300)}ms` } as CSSProperties}
           >
             {/* Image side */}
             <div className="showcase-visual">

@@ -8,6 +8,7 @@ import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { Story } from "./components/Story";
 import { Academy } from "./components/Academy";
+import { CourseView } from "./components/CourseView";
 import { Atelier } from "./components/Atelier";
 import { SocialProof } from "./components/SocialProof";
 import { Closing } from "./components/Closing";
@@ -32,7 +33,7 @@ function ScrollToTop() {
   return null;
 }
 
-function RevealObserver({ depend }: { depend?: any }) {
+function RevealObserver({ depend }: { depend?: unknown }) {
   const { key } = useLocation();
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +58,6 @@ function RevealObserver({ depend }: { depend?: any }) {
 function App() {
   const [mode, setMode] = useState(() => localStorage.getItem("teacherprecy-mode") || "gallery");
   const [filter, setFilter] = useState("all");
-  const [selectedSlot, setSelectedSlot] = useState(0);
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [initializing, setInitializing] = useState(true);
 
@@ -149,6 +149,7 @@ function App() {
               <>
                 <RevealObserver depend={filter} />
                 <Academy 
+                  user={user}
                   academy={content.academy} 
                   categories={categories} 
                   filter={filter} 
@@ -156,13 +157,13 @@ function App() {
                 />
               </>
             } />
+            <Route path="/academy/:courseId" element={<CourseView user={user} />} />
             <Route path="/book" element={
               <>
                 <RevealObserver />
                 <Atelier 
                   atelier={content.atelier} 
-                  selectedSlot={selectedSlot} 
-                  setSelectedSlot={setSelectedSlot} 
+                  user={user}
                 />
               </>
             } />

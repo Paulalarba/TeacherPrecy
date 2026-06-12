@@ -38,7 +38,7 @@ export function Navigation({ brandName, mode, toggleMode, user, onLogout }: Navi
           <img src="/Logo.png" alt={brandName} className="header-logo" />
         </Link>
         <nav className="nav-links" aria-label="Primary navigation">
-          <Link to="/" onClick={() => isHome && moveTo("hero")}>Home</Link>
+          {!user && <Link to="/" onClick={() => isHome && moveTo("hero")}>Home</Link>}
           <Link to="/academy">Academy</Link>
           <Link to="/book">Booking</Link>
           {user && <Link to="/dashboard">Dashboard</Link>}
