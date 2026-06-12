@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Play, BookOpen } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Play, BookOpen, FileText } from "lucide-react";
 import { content } from "../data";
 
 declare global {
@@ -122,6 +122,18 @@ export function CourseView({ user }: CourseViewProps) {
           <div className="course-info">
             <span className="eyebrow">{course.category}</span>
             <h1>{course.title}</h1>
+            <div className="course-progress-wrapper">
+              <div className="progress-label">
+                <span>Course Progress</span>
+                <span>{Math.round(((currentLessonIndex + (quizPassed ? 1 : 0)) / lessons.length) * 100)}%</span>
+              </div>
+              <div className="course-progress-bar">
+                <div 
+                  className="course-progress-fill" 
+                  style={{ width: `${((currentLessonIndex + (quizPassed ? 1 : 0)) / lessons.length) * 100}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -171,6 +183,18 @@ export function CourseView({ user }: CourseViewProps) {
                 </button>
               </div>
             </div>
+
+            {currentLesson.transcript && (
+              <div className="lesson-transcript">
+                <div className="transcript-header">
+                  <FileText size={16} />
+                  <span>Lesson Transcript & Notes</span>
+                </div>
+                <div className="transcript-content">
+                  {currentLesson.transcript}
+                </div>
+              </div>
+            )}
 
             {/* Quiz Section */}
             {(videoFinished || quizPassed) && (
@@ -343,6 +367,33 @@ export function CourseView({ user }: CourseViewProps) {
           font-family: var(--font-editorial);
           margin-top: var(--space-1);
         }
+
+        .course-progress-wrapper {
+          margin-top: var(--space-4);
+          max-width: 300px;
+        }
+
+        .progress-label {
+          display: flex;
+          justify-content: space-between;
+          font-size: var(--text-xs);
+          color: var(--voice);
+          margin-bottom: 4px;
+          font-weight: 500;
+        }
+
+        .course-progress-bar {
+          height: 6px;
+          background: var(--line);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .course-progress-fill {
+          height: 100%;
+          background: var(--signal);
+          transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         
         .course-grid {
           display: grid;
@@ -392,8 +443,38 @@ export function CourseView({ user }: CourseViewProps) {
           font-weight: 600;
         }
         
+        .lesson-transcript {
+          margin-top: var(--space-6);
+          padding: var(--space-4) var(--space-6);
+          background: var(--paper);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-sm);
+        }
+        
+        .transcript-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: var(--text-xs);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--voice);
+          margin-bottom: var(--space-3);
+          font-weight: 600;
+        }
+        
+        .transcript-content {
+          font-size: var(--text-base);
+          line-height: 1.6;
+          color: var(--ink);
+          font-style: italic;
+        }
+        
         .lesson-nav-controls {
           display: flex;
+          justify-content: space-between;
+          align-items: center;
           gap: var(--space-3);
         }
         
@@ -418,16 +499,19 @@ export function CourseView({ user }: CourseViewProps) {
           align-items: center;
           gap: 12px;
           font-weight: 600;
+          color: var(--ink);
         }
         
         .quiz-body {
           padding: var(--space-6);
+          color: var(--ink);
         }
         
         .question {
           font-size: var(--text-lg);
           font-weight: 500;
           margin-bottom: var(--space-6);
+          color: var(--ink);
         }
         
         .options-grid {
@@ -442,7 +526,8 @@ export function CourseView({ user }: CourseViewProps) {
           padding: var(--space-4) var(--space-6);
           border: 1px solid var(--line);
           border-radius: var(--radius-sm);
-          background: transparent;
+          background: var(--paper);
+          color: var(--ink);
           cursor: pointer;
           transition: all 0.2s;
           font-family: inherit;

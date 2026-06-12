@@ -30,6 +30,7 @@ interface DashboardProps {
     format: string;
     category: string;
     description: string;
+    id: string;
   }>;
 }
 
@@ -268,9 +269,9 @@ export function Dashboard({ user, onLogout, academy }: DashboardProps) {
                         <h4 style={{ fontSize: "var(--text-lg)", fontWeight: 600, marginTop: "var(--space-2)" }}>{item.title}</h4>
                       </div>
                       {progress > 0 ? (
-                        <Link to={`/academy/${(item as any).id}`} className="btn btn-quiet">Resume Module</Link>
+                        <Link to={`/academy/${item.id}`} className="btn btn-quiet">Resume Module</Link>
                       ) : (
-                        <Link to={`/academy/${(item as any).id}`} className="btn btn-primary">Start Module</Link>
+                        <Link to={`/academy/${item.id}`} className="btn btn-primary">Start Module</Link>
                       )}
                     </div>
                     <p style={{ color: "var(--voice)", fontSize: "var(--text-sm)", marginBlock: "var(--space-2)" }}>{item.description}</p>
