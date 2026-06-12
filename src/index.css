@@ -1585,6 +1585,36 @@ blockquote cite {
     padding-right: 0;
     padding-bottom: var(--space-6);
   }
+  .dashboard-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: var(--space-4);
+    gap: var(--space-2);
+  }
+  .dashboard-menu-item {
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+  }
+  .dashboard-menu-item.active {
+    border-left: none;
+    border-bottom: 3px solid var(--signal);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .dashboard-profile {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .dashboard-profile h3, .dashboard-profile span {
+    margin: 0;
+  }
+  .dashboard-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: var(--text-lg);
+  }
 }
 
 /* Gallery Section Styles */
