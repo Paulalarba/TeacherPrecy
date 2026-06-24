@@ -1,0 +1,32 @@
+<section id="story" class="py-24 bg-slate-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="reveal-on-scroll space-y-6 text-center mb-16">
+            <p class="text-yellow-600 font-bold uppercase tracking-widest text-sm">@Model.Story.NarrativeLabel</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900">@Model.Story.NarrativeHeadline</h2>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                @Model.Story.NarrativeBody
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="reveal-on-scroll p-8 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 100ms;">
+                <p class="text-yellow-600 font-bold uppercase tracking-widest text-xs mb-4">Professional Expertise</p>
+                <p class="text-slate-700 leading-relaxed font-medium">
+                    @Model.Story.ProfessionalExpertise
+                </p>
+            </div>
+
+            <div class="reveal-on-scroll p-8 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 200ms;">
+                <p class="text-yellow-600 font-bold uppercase tracking-widest text-xs mb-4">Skills & Expertise</p>
+                <div class="flex flex-wrap gap-2">
+                    @foreach (var skill in Model.Story.Expertise)
+                    {
+                        <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium border border-slate-200">
+                            @skill
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

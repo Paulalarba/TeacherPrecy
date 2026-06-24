@@ -1,0 +1,38 @@
+<section class="py-24 bg-slate-50 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 mb-16">
+        <div class="reveal-on-scroll text-center space-y-4">
+            <p class="text-yellow-600 font-bold uppercase tracking-widest text-sm">Social Proof / Excerpts</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900">Notes from learners who needed clarity.</h2>
+        </div>
+    </div>
+
+    <div class="relative pause-marquee">
+        <div class="flex overflow-hidden">
+            <div class="animate-marquee flex gap-6 whitespace-nowrap py-4 px-4">
+                @for (int i = 0; i < 4; i++) 
+                {
+                    @foreach (var item in Model.SocialProofs)
+                    {
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col gap-4 min-w-[350px] max-w-[350px]">
+                            <div class="text-yellow-500 opacity-30">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11 7.5H7.5C5.57 7.5 4 9.07 4 11v1.5C4 14.43 5.57 16 7.5 16S11 14.43 11 12.5V7.5z" />
+                                    <path d="M20 7.5h-3.5C14.57 7.5 13 9.07 13 11v1.5c0 1.93 1.57 3.5 3.5 3.5S20 14.43 20 12.5V7.5z" />
+                                </svg>
+                            </div>
+                            <blockquote class="text-slate-600 italic leading-relaxed">
+                                "@item.Quote"
+                            </blockquote>
+                            <div class="flex items-center gap-3">
+                                <div class="h-8 w-8 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold text-xs uppercase">
+                                    @item.Source.Substring(0, 1)
+                                </div>
+                                <cite class="text-sm font-bold text-slate-900 not-italic">@item.Source</cite>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>

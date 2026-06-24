@@ -1,0 +1,50 @@
+<section id="hero" class="relative pt-32 pb-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal-on-scroll space-y-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium border border-yellow-200">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                </span>
+                <span>@Model.Hero.Kicker</span>
+            </div>
+            
+            <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                Inclusive learning <span class="text-yellow-500">starts here.</span>
+            </h1>
+            
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                @Model.Hero.Mission
+            </p>
+            
+            <div class="flex flex-wrap gap-4">
+                <a href="/Book" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    @Model.Hero.PrimaryCta
+                </a>
+                <a href="/Academy" class="bg-white border-2 border-slate-200 hover:border-yellow-500 text-slate-700 px-8 py-4 rounded-full font-bold transition-all hover:bg-slate-50 transform hover:-translate-y-1">
+                    @Model.Hero.SecondaryCta
+                </a>
+            </div>
+            
+            <div class="flex flex-wrap gap-6 pt-8 items-center text-slate-500 font-medium">
+                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold uppercase tracking-wider">Trusted FSL Coach</span>
+                <div class="flex items-center gap-1">
+                    <span class="count-up text-slate-900 font-bold" data-value="7">+</span> years FSL practice
+                </div>
+                <div class="flex items-center gap-1">
+                    <span class="count-up text-slate-900 font-bold" data-value="10">+</span> expertise areas
+                </div>
+                <div class="flex items-center gap-1">
+                    <span class="count-up text-slate-900 font-bold" data-value="12">+</span> guided lessons
+                </div>
+            </div>
+        </div>
+        
+        <div class="relative reveal-on-scroll" style="transition-delay: 200ms;">
+            <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                <img src="/Profile.png" alt="Precy Alarba" class="w-full h-auto" />
+            </div>
+            <div class="absolute -top-4 -right-4 w-full h-full bg-yellow-200 rounded-3xl -z-10 opacity-50"></div>
+        </div>
+    </div>
+</section>
